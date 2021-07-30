@@ -1,5 +1,7 @@
 # Kubernetes The Hard Way
 
+Forked from [https://github.com/sgargel/kubernetes-the-hard-way-virtualbox](https://github.com/sgargel/kubernetes-the-hard-way-virtualbox)
+
 The original guide is now dated and following it step by step produces some errors. This is an attempt to update it, but it is a WorkInProgress... a project to pass the time during the #covid19 #lockdown
 
 > "Kubernetes The Hard Way" is a wonderful tutorial for setting up Kubernetes step by step. But [Google Cloud Platform](https://cloud.google.com/) is somehow not convenient for me, so I use VirtualBox to provision compute resources. The major differences between GCP and VirtualBox come with the networking, and could be fixed easily. Everything else keeps the same with origin.
