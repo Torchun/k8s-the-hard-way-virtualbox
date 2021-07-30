@@ -73,7 +73,7 @@ ping -c 1 10.99.13.100
 > output
 
 ```
-PING 10.99.13.100 (192.168.100.100): 56 data bytes
+PING 10.99.13.100 (10.99.13.100): 56 data bytes
 64 bytes from 10.99.13.100: icmp_seq=0 ttl=64 time=0.438 ms
 
 --- 10.99.13.100 ping statistics ---
