@@ -40,11 +40,11 @@ cat > ca-csr.json <<EOF
   },
   "names": [
     {
-      "C": "US",
-      "L": "Portland",
+      "C": "RU",
+      "L": "Moscow",
       "O": "Kubernetes",
-      "OU": "CA",
-      "ST": "Oregon"
+      "OU": "MSK",
+      "ST": "Moscow region"
     }
   ]
 }
@@ -82,11 +82,11 @@ cat > admin-csr.json <<EOF
   },
   "names": [
     {
-      "C": "US",
-      "L": "Portland",
+      "C": "RU",
+      "L": "Moscow",
       "O": "system:masters",
       "OU": "Kubernetes The Hard Way",
-      "ST": "Oregon"
+      "ST": "Moscow region"
     }
   ]
 }
@@ -128,17 +128,17 @@ cat > ${instance}-csr.json <<EOF
   },
   "names": [
     {
-      "C": "US",
-      "L": "Portland",
+      "C": "RU",
+      "L": "Moscow",
       "O": "system:nodes",
       "OU": "Kubernetes The Hard Way",
-      "ST": "Oregon"
+      "ST": "Moscow region"
     }
   ]
 }
 EOF
 
-INTERNAL_IP=$(vagrant ssh ${instance} -- "ip -4 --oneline addr | grep -v secondary | grep -oP '(192\.168\.100\.[0-9]{1,3})(?=/)'")
+INTERNAL_IP=$(vagrant ssh ${instance} -- "ip -4 --oneline addr | grep -v secondary | grep -oP '(10\.99\.13\.[0-9]{1,3})(?=/)'")
 
 cfssl gencert \
   -ca=ca.pem \
@@ -153,10 +153,16 @@ done
 Results:
 
 ```
+worker-0.csr
+worker-0-csr.json
 worker-0-key.pem
 worker-0.pem
+worker-1.csr
+worker-1-csr.json
 worker-1-key.pem
 worker-1.pem
+worker-2.csr
+worker-2-csr.json
 worker-2-key.pem
 worker-2.pem
 ```
@@ -175,11 +181,11 @@ cat > kube-proxy-csr.json <<EOF
   },
   "names": [
     {
-      "C": "US",
-      "L": "Portland",
+      "C": "RU",
+      "L": "Moscow",
       "O": "system:node-proxier",
       "OU": "Kubernetes The Hard Way",
-      "ST": "Oregon"
+      "ST": "Moscow region"
     }
   ]
 }
@@ -200,18 +206,21 @@ cfssl gencert \
 Results:
 
 ```
+kube-proxy.csr
 kube-proxy-key.pem
 kube-proxy.pem
+kube-proxy-csr.json
+
 ```
 
 ### The Kubernetes API Server Certificate
 
 The `kubernetes-the-hard-way` static IP address will be included in the list of subject alternative names for the Kubernetes API Server certificate. This will ensure the certificate can be validated by remote clients.
 
-Retrieve the `kubernetes-the-hard-way` static IP address:
+Retrieve the `kubernetes-the-hard-way` static IP address (declared in `/etc/ha.d/haresources`, see `heartbeat.sh`):
 
 ```
-KUBERNETES_PUBLIC_ADDRESS="192.168.100.100"
+KUBERNETES_PUBLIC_ADDRESS="10.99.13.100"
 ```
 
 Create the Kubernetes API Server certificate signing request:
