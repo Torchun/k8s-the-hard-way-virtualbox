@@ -7,11 +7,12 @@ Kubernetes components are stateless and store cluster state in [etcd](https://gi
 Download the official etcd release binaries from the [coreos/etcd](https://github.com/coreos/etcd) GitHub project:
 
 ```
-ETCD_VERSION=3.4.7
+ETCD_VERSION=3.5.0
+cd files/
 wget -q --show-progress --https-only --timestamping \
   "https://github.com/coreos/etcd/releases/download/v${ETCD_VERSION}/etcd-v${ETCD_VERSION}-linux-amd64.tar.gz"
 ```
-
+Downloaded file will appear in each VirtualBox machine, deployed with Vagrant. See `/vagrant` directory on each machine.
 ## Prerequisites
 
 The commands in this lab must be run on each controller instance: `controller-0`, `controller-1`, and `controller-2`. Login to each controller instance using the `vagrant ssh` command. Example:
@@ -19,6 +20,15 @@ The commands in this lab must be run on each controller instance: `controller-0`
 ```
 vagrant ssh controller-0
 ```
+Tmux can be used on local laptop/desktop to perform described action simultaneously:
+```
+tmux
+```
+* hit `Ctrl+b` `%` twice - it will split window into 3 columns
+* `Ctrl+b` `Alt+2` will switch to horizontal split with equal spacing
+* `Ctrl+b` `Alt+1` do the same but vertically
+* `Ctrl+b` `→` to change active split to right or `Ctrl+b` `←` to move left
+
 
 ## Bootstrapping an etcd Cluster Member
 
