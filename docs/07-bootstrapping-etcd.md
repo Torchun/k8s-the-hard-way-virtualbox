@@ -52,7 +52,7 @@ tar -xvf /vagrant/files/etcd-v${ETCD_VERSION}-linux-amd64.tar.gz
 ```
 
 ```
-sudo mv etcd-v${ETCD_VERSION}-linux-amd64/etcd* /usr/local/bin/
+sudo cp etcd-v${ETCD_VERSION}-linux-amd64/etcd* /usr/local/bin/
 ```
 
 ### Configure the etcd Server
