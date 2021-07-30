@@ -217,7 +217,7 @@ kube-proxy-csr.json
 
 The `kubernetes-the-hard-way` static IP address will be included in the list of subject alternative names for the Kubernetes API Server certificate. This will ensure the certificate can be validated by remote clients.
 
-Retrieve the `kubernetes-the-hard-way` static IP address (declared in `/etc/ha.d/haresources`, see `heartbeat.sh`):
+Retrieve the `kubernetes-the-hard-way` static IP address (previously declared in `/etc/ha.d/haresources`, see `heartbeat.sh`):
 
 ```
 KUBERNETES_PUBLIC_ADDRESS="10.99.13.100"
@@ -235,11 +235,11 @@ cat > kubernetes-csr.json <<EOF
   },
   "names": [
     {
-      "C": "US",
-      "L": "Portland",
+      "C": "RU",
+      "L": "Moscow",
       "O": "Kubernetes",
       "OU": "Kubernetes The Hard Way",
-      "ST": "Oregon"
+      "ST": "Moscow region"
     }
   ]
 }
@@ -253,7 +253,7 @@ cfssl gencert \
   -ca=ca.pem \
   -ca-key=ca-key.pem \
   -config=ca-config.json \
-  -hostname=10.32.0.1,192.168.100.10,192.168.100.11,192.168.100.12,${KUBERNETES_PUBLIC_ADDRESS},127.0.0.1,kubernetes.default \
+  -hostname=10.32.0.1,10.99.13.10,10.99.13.11,10.99.13.12,${KUBERNETES_PUBLIC_ADDRESS},127.0.0.1,kubernetes.default \
   -profile=kubernetes \
   kubernetes-csr.json | cfssljson -bare kubernetes
 ```
@@ -263,6 +263,8 @@ Results:
 ```
 kubernetes-key.pem
 kubernetes.pem
+kubernetes.csr
+
 ```
 
 Concatenate Kubernetes API Server certificate with CA:
