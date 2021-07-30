@@ -4,6 +4,10 @@ In this lab you will bootstrap the Kubernetes control plane across three compute
 
 Will be also configured `kubectl` inside controller nodes.
 
+Execute on local laptop/desktop
+
+Go to `certs/` directory and execute:
+
 ```
 cat > controller-kubectl-config.yaml <<EOF
 apiVersion: v1
@@ -30,23 +34,42 @@ controller-kubectl-config.yaml
 
 ## Download the Kubernetes Controller Binaries
 
-Download the official Kubernetes release binaries:
+Download the official Kubernetes release binaries into `files` directory:
 
 ```
 wget -q --show-progress --https-only --timestamping \
-  "https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kube-apiserver" \
-  "https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kube-controller-manager" \
-  "https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kube-scheduler" \
-  "https://storage.googleapis.com/kubernetes-release/release/v1.18.0/bin/linux/amd64/kubectl"
+  "https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kube-apiserver" \
+  "https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kube-controller-manager" \
+  "https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kube-scheduler" \
+  "https://storage.googleapis.com/kubernetes-release/release/v1.21.0/bin/linux/amd64/kubectl"
 ```
-
+That files will appear in each of deployed by  Vagrant instances, see `/vagrant` directory
 ## Prerequisites
 
-The commands in this lab must be run on each controller instance: `controller-0`, `controller-1`, and `controller-2`. Login to each controller instance using the `vagrant ssh` command. Example:
+The commands in this lab must be run on each controller instance: `controller-0`, `controller-1`, and `controller-2`. Login to each controller instance using the `vagrant ssh` command.
+
+Tmux can be used on local laptop/desktop to perform described action simultaneously:
+```
+tmux
+```
+* hit `Ctrl+b` `%` twice - it will split window into 3 columns
+* `Ctrl+b` `Alt+2` will switch to horizontal split with equal spacing
+* `Ctrl+b` `Alt+1` do the same but vertically
+* `Ctrl+b` `→` to change active split to right or `Ctrl+b` `←` to move left
+* `Ctrl+b` `:` and type `resize-pane -D 10` to move current pane lower border down to 10 lines
+* `Ctrl+b` `:` and type `resize-pane -U 10` to move current pane lower border up to 10 lines
+
+On each window establish new connection to corresponding `controller-X`
 
 ```
 vagrant ssh controller-0
+vagrant ssh controller-1
+vagrant ssh controller-2
 ```
+When conections established, configure Tmux for panes syncronization:
+* `Ctrl+b` `:` and type `setw synchronize-panes on`
+* go to preferred pane and check sync is working correctly: `hostname`
+* on controllers, `cd /vagrant/files`
 
 ## Provision the Kubernetes Control Plane
 
@@ -54,14 +77,14 @@ vagrant ssh controller-0
 Configure kubectl:
 
 ```
-(mkdir -p ~/.kube/ && cp /vagrant/controller-kubectl-config.yaml ~/.kube/config)
+(mkdir -p ~/.kube/ && cp /vagrant/certs/controller-kubectl-config.yaml ~/.kube/config)
 ```
 
 ### Install the Kubernetes Controller Binaries
 Install the Kubernetes binaries:
 
 ```
-(cd /vagrant && sudo cp kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/)
+(cd /vagrant/files && sudo cp kube-apiserver kube-controller-manager kube-scheduler kubectl /usr/local/bin/)
 ```
 
 ```
@@ -75,13 +98,13 @@ sudo mkdir -p /var/lib/kubernetes/
 ```
 
 ```
-(cd /vagrant && sudo cp ca.pem ca-key.pem kubernetes-tls-cert-file.pem kubernetes-key.pem kubernetes.pem encryption-config.yaml /var/lib/kubernetes/)
+(cd /vagrant/certs && sudo cp ca.pem ca-key.pem kubernetes-tls-cert-file.pem kubernetes-key.pem kubernetes.pem encryption-config.yaml /var/lib/kubernetes/)
 ```
 
 The instance internal IP address will be used advertise the API Server to members of the cluster. Retrieve the internal IP address for the current compute instance:
 
 ```
-INTERNAL_IP=$(ip -4 --oneline addr | grep -v secondary | grep -oP '(192\.168\.100\.[0-9]{1,3})(?=/)')
+INTERNAL_IP=$(ip -4 --oneline addr | grep -v secondary | grep -oP '(10\.99\.13\.[0-9]{1,3})(?=/)')
 ```
 
 Create the `kube-apiserver.service` systemd unit file:
@@ -94,7 +117,7 @@ Documentation=https://github.com/GoogleCloudPlatform/kubernetes
 
 [Service]
 ExecStart=/usr/local/bin/kube-apiserver \\
-  --enable-admission-plugins=NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \ \\
+  --enable-admission-plugins=NamespaceLifecycle,NodeRestriction,LimitRanger,ServiceAccount,DefaultStorageClass,ResourceQuota \\
   --advertise-address=${INTERNAL_IP} \\
   --allow-privileged=true \\
   --apiserver-count=3 \\
@@ -109,7 +132,7 @@ ExecStart=/usr/local/bin/kube-apiserver \\
   --etcd-cafile=/var/lib/kubernetes/ca.pem \\
   --etcd-certfile=/var/lib/kubernetes/kubernetes.pem \\
   --etcd-keyfile=/var/lib/kubernetes/kubernetes-key.pem \\
-  --etcd-servers=https://192.168.100.10:2379,https://192.168.100.11:2379,https://192.168.100.12:2379 \\
+  --etcd-servers=https://10.99.13.10:2379,https://10.99.13.11:2379,https://10.99.13.12:2379 \\
   --event-ttl=1h \\
   --encryption-provider-config=/var/lib/kubernetes/encryption-config.yaml \\
   --insecure-bind-address=127.0.0.1 \\
