@@ -36,7 +36,6 @@ EOF
 cat >/etc/ha.d/authkeys <<EOF
 auth 1
 ### This is for mutual auth purposes
-### 1 sha1 $AUTH_KEY
 1 md5 just-for-learning
 EOF
 chmod 600 /etc/ha.d/authkeys
