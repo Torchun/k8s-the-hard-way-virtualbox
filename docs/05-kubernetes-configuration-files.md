@@ -15,14 +15,14 @@ Each kubeconfig requires a Kubernetes API Server to connect to. To support high 
 Retrieve the `kubernetes-the-hard-way` static VIP address:
 
 ```
-KUBERNETES_PUBLIC_ADDRESS="192.168.100.100"
+KUBERNETES_PUBLIC_ADDRESS="10.99.13.100"
 ```
 
 ### The kubelet Kubernetes Configuration File
 
 When generating kubeconfig files for Kubelets the client certificate matching the Kubelet's node name must be used. This will ensure Kubelets are properly authorized by the Kubernetes [Node Authorizer](https://kubernetes.io/docs/admin/authorization/node/).
 
-Generate a kubeconfig file for each worker node:
+Generate a kubeconfig file for each worker node. Should be executed in directory where previously generated certs placed:
 
 ```
 for instance in worker-0 worker-1 worker-2; do
