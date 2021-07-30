@@ -17,8 +17,8 @@ The compute instances in this lab will be provisioned using [Ubuntu Server](http
 ## What's happening here
 
 Take a look at config files:
-* Vagrantfile
-* heartbeat.sh
+* `Vagrantfile`
+* `heartbeat.sh`
 
 Kubernetes Virtual IP address configured via `/etc/ha.d/haresources` which is created with `heartbeat.sh`
 
