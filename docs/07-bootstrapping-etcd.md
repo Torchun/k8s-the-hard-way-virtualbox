@@ -68,7 +68,7 @@ sudo mkdir -p /etc/etcd /var/lib/etcd
 The instance internal IP address will be used to serve client requests and communicate with etcd cluster peers. Retrieve the internal IP address for the current compute instance:
 
 ```
-INTERNAL_IP=$(ip -4 --oneline addr | grep -v secondary | grep -oP '(192\.168\.100\.[0-9]{1,3})(?=/)')
+INTERNAL_IP=$(ip -4 --oneline addr | grep -v secondary | grep -oP '(10\.99\.13\.[0-9]{1,3})(?=/)')
 ```
 
 Each etcd member must have a unique name within an etcd cluster. Set the etcd name to match the hostname of the current compute instance:
@@ -101,7 +101,7 @@ ExecStart=/usr/local/bin/etcd \\
   --listen-client-urls https://${INTERNAL_IP}:2379,http://127.0.0.1:2379 \\
   --advertise-client-urls https://${INTERNAL_IP}:2379 \\
   --initial-cluster-token etcd-cluster-0 \\
-  --initial-cluster controller-0=https://192.168.100.10:2380,controller-1=https://192.168.100.11:2380,controller-2=https://192.168.100.12:2380 \\
+  --initial-cluster controller-0=https://10.99.13.10:2380,controller-1=https://10.99.13.11:2380,controller-2=https://10.99.13.12:2380 \\
   --initial-cluster-state new \\
   --data-dir=/var/lib/etcd
 Restart=on-failure
@@ -143,9 +143,10 @@ ETCDCTL_API=3 etcdctl member list
 > output
 
 ```
-1a82afa2247e7562, started, controller-2, https://192.168.100.12:2380, https://192.168.100.12:2379
-9b08d67746040f15, started, controller-0, https://192.168.100.10:2380, https://192.168.100.10:2379
-b9a27230d536d1e8, started, controller-1, https://192.168.100.11:2380, https://192.168.100.11:2379
+vagrant@controller-0:/etc/systemd/system$ ETCDCTL_API=3 etcdctl member list
+1f9a55552b7bf63d, started, controller-1, https://10.99.13.11:2380, https://10.99.13.11:2379, false
+76384c5b8ca8dd31, started, controller-2, https://10.99.13.12:2380, https://10.99.13.12:2379, false
+d928e7fae18dd88d, started, controller-0, https://10.99.13.10:2380, https://10.99.13.10:2379, false
 ```
 
 Next: [Bootstrapping the Kubernetes Control Plane](08-bootstrapping-kubernetes-controllers.md)
