@@ -17,7 +17,7 @@ initdead 120
 udpport 694
 ### Deprecated: determine whether a resource would automatically fail back to its "primary" node
 auto_failback off
-### 
+### Controllers only
 ucast $(ip -4 --oneline addr | grep '10\.99\.13\.' | cut -d' ' -f2) 10.99.13.10
 ucast $(ip -4 --oneline addr | grep '10\.99\.13\.' | cut -d' ' -f2) 10.99.13.11
 ucast $(ip -4 --oneline addr | grep '10\.99\.13\.' | cut -d' ' -f2) 10.99.13.12
@@ -29,8 +29,8 @@ node    controller-2
 EOF
 
 cat >/etc/ha.d/haresources <<EOF
-### That etcd instance will be "main" by default, same configuration on each node.
-controller-0 IPaddr::10.99.13.100/24/$(ip -4 --oneline addr | grep '192\.168\.100\.' | cut -d' ' -f2)
+### That (Virtual IP) etcd instance will be "main" by default, same configuration on each node.
+controller-0 IPaddr::10.99.13.100/24/$(ip -4 --oneline addr | grep '10\.99\.13\.' | cut -d' ' -f2)
 EOF
 
 cat >/etc/ha.d/authkeys <<EOF

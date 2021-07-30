@@ -14,8 +14,18 @@ Each machine uses two network interface, one for access the Internet with type "
 
 The compute instances in this lab will be provisioned using [Ubuntu Server](https://www.ubuntu.com/server) 16.04, which has good support for the [cri-containerd container runtime](https://github.com/kubernetes-incubator/cri-containerd). Each compute instance will be provisioned with a fixed private IP address to simplify the Kubernetes bootstrapping process.
 
+## What's happening here
+
+Take a look at config files:
+* Vagrantfile
+* heartbeat.sh
+
+Kubernetes Virtual IP address configured via `/etc/ha.d/haresources` which is created with `heartbeat.sh`
+
 
 ### Start the VMs with Vagrant
+
+`cd` to directory with `Vagrantfile`
 
 ```
 vagrant up
@@ -57,16 +67,16 @@ When Vagrant creates a virtual machine, it executes the deployment script `heart
 
 ### Verification
 ```
-ping -c 1 192.168.100.100
+ping -c 1 10.99.13.100
 ```
 
 > output
 
 ```
-PING 192.168.100.100 (192.168.100.100): 56 data bytes
-64 bytes from 192.168.100.100: icmp_seq=0 ttl=64 time=0.438 ms
+PING 10.99.13.100 (192.168.100.100): 56 data bytes
+64 bytes from 10.99.13.100: icmp_seq=0 ttl=64 time=0.438 ms
 
---- 192.168.100.100 ping statistics ---
+--- 10.99.13.100 ping statistics ---
 1 packets transmitted, 1 packets received, 0.0% packet loss
 round-trip min/avg/max/stddev = 0.438/0.438/0.438/0.000 ms
 ```

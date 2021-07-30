@@ -26,7 +26,7 @@ Vagrant.configure(2) do |config|
   (0..2).each do |i|
     config.vm.define "worker-#{i}" do |node|
       node.vm.hostname = "worker-#{i}"
-      node.vm.network "private_network", ip: "10.99.19.2#{i}"
+      node.vm.network "private_network", ip: "10.99.13.2#{i}"
       node.vm.provision :hosts, :sync_hosts => true
       node.vm.provider "virtualbox" do |vb|
         vb.name = "worker-#{i}"
