@@ -6,7 +6,9 @@ In this lab you will provision a [PKI Infrastructure](https://en.wikipedia.org/w
 
 In this section you will provision a Certificate Authority that can be used to generate additional TLS certificates.
 
-Create the CA configuration file:
+These steps are performed locally on laptop/desktop
+
+Create the CA configuration file (expires after 1 year):
 
 ```
 cat > ca-config.json <<EOF
