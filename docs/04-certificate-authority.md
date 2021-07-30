@@ -8,7 +8,7 @@ In this section you will provision a Certificate Authority that can be used to g
 
 These steps are performed locally on laptop/desktop
 
-Create the CA configuration file (expires after 1 year):
+Create the CA configuration file (expires after 1 year), e.g. in `certs/` directory:
 
 ```
 cat > ca-config.json <<EOF
