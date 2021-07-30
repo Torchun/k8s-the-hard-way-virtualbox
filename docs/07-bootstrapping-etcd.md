@@ -25,6 +25,8 @@ tmux
 * `Ctrl+b` `Alt+2` will switch to horizontal split with equal spacing
 * `Ctrl+b` `Alt+1` do the same but vertically
 * `Ctrl+b` `→` to change active split to right or `Ctrl+b` `←` to move left
+* `Ctrl+b` `:` and type `resize-pane -D 10` to move current pane lower border down to 10 lines
+* `Ctrl+b` `:` and type `resize-pane -U 10` to move current pane lower border up to 10 lines
 
 On each window establish new connection to corresponding `controller-X`
 
@@ -36,6 +38,7 @@ vagrant ssh controller-2
 When conections established, configure Tmux for panes syncronization:
 * `Ctrl+b` `:` and type `setw synchronize-panes on`
 * go to preferred pane and check sync is working correctly: `hostname`
+* on controllers, `cd /vagrant/files`
 
 
 ## Bootstrapping an etcd Cluster Member
@@ -44,8 +47,8 @@ When conections established, configure Tmux for panes syncronization:
 Extract and install the `etcd` server and the `etcdctl` command line utility:
 
 ```
-ETCD_VERSION=3.4.7
-tar -xvf /vagrant/etcd-v${ETCD_VERSION}-linux-amd64.tar.gz
+ETCD_VERSION=3.5.0
+tar -xvf /vagrant/files/etcd-v${ETCD_VERSION}-linux-amd64.tar.gz
 ```
 
 ```
@@ -59,7 +62,7 @@ sudo mkdir -p /etc/etcd /var/lib/etcd
 ```
 
 ```
-(cd /vagrant/ && sudo cp ca.pem kubernetes-key.pem kubernetes.pem /etc/etcd/)
+(cd /vagrant/certs && sudo cp ca.pem kubernetes-key.pem kubernetes.pem /etc/etcd/)
 ```
 
 The instance internal IP address will be used to serve client requests and communicate with etcd cluster peers. Retrieve the internal IP address for the current compute instance:
