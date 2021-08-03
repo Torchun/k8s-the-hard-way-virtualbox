@@ -1,6 +1,10 @@
 # Kubernetes The Hard Way
 
-Forked from [https://github.com/sgargel/kubernetes-the-hard-way-virtualbox](https://github.com/sgargel/kubernetes-the-hard-way-virtualbox)
+This is compilation of Kelsey Hightower Labs and Eficode Praqma Labs for "Kubernetes The Hard Way".
+
+Original GitHub repos can be found here:
+* [https://github.com/sgargel/kubernetes-the-hard-way-virtualbox](https://github.com/sgargel/kubernetes-the-hard-way-virtualbox)
+* [https://github.com/Praqma/LearnKubernetes/blob/master/kamran/Kubernetes-The-Hard-Way-on-BareMetal.md](https://github.com/Praqma/LearnKubernetes/blob/master/kamran/Kubernetes-The-Hard-Way-on-BareMetal.md)
 
 The original guide is now dated and following it step by step produces some errors. This is an attempt to update it, but it is a WorkInProgress... a project to pass the time during the #covid19 #lockdown
 
