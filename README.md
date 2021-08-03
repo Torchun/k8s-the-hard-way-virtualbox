@@ -31,7 +31,7 @@ Kubernetes The Hard Way guides you through bootstrapping a highly available Kube
 
 ## Labs
 
-This tutorial assumes you have VirtualBox installed. While VirtualBox is used for basic infrastructure requirements the lessons learned in this tutorial can be applied to other platforms.
+This tutorial assumes you have VirtualBox installed. While VirtualBox is used for basic infrastructure requirements the lessons learned in this tutorial can be applied to other platforms. All actions expected to be performed at project's directory containing `Vagrantfile` and scripts. This directory considered as "home" for Labs by default. Keep an eye on this!
 
 * [Prerequisites](docs/01-prerequisites.md)
 * [Installing the Client Tools](docs/02-client-tools.md)
