@@ -1,6 +1,6 @@
 # Kubernetes The Hard Way
 
-This is compilation of Kelsey Hightower Labs and Eficode Praqma Labs for "Kubernetes The Hard Way".
+This is compilation of [Kelsey Hightower Labs](https://github.com/kelseyhightower) and [Eficode Praqma Labs](https://github.com/Praqma) for "Kubernetes The Hard Way".
 
 Original GitHub repos can be found here:
 * [https://github.com/sgargel/kubernetes-the-hard-way-virtualbox](https://github.com/sgargel/kubernetes-the-hard-way-virtualbox)
