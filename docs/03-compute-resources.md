@@ -80,5 +80,11 @@ PING 10.99.13.100 (10.99.13.100): 56 data bytes
 1 packets transmitted, 1 packets received, 0.0% packet loss
 round-trip min/avg/max/stddev = 0.438/0.438/0.438/0.000 ms
 ```
+If `ping` is not successfull, there is a problem with `heartbeat` service on nodes. Fastest way to fix is:
+* shutdown all controllers
+* start `controller-0` and `ssh` to it. 
+* repeat start and `ssh` to each controller you have sequentially
+* double-check with `ping` from laptop/desktop and `sudo service heartbeat status` on each controller
+
 
 Next: [Provisioning a CA and Generating TLS Certificates](04-certificate-authority.md)
